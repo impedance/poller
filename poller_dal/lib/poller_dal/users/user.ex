@@ -10,7 +10,7 @@ defmodule PollerDal.Users.User do
     timestamps()
   end
 
-  def registration_changeset(user, attrs) do
+  def registration_changeset(user, attr) do
     user
     |> cast(attrs, [:email, :password])
     |> validate_required([:email, :password])
