@@ -7,7 +7,7 @@ defmodule PollerPhx.MixProject do
       version: "0.1.0",
       elixir: "~> 1.5",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      compilers: [:phoenix] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -36,9 +36,8 @@ defmodule PollerPhx.MixProject do
       {:phoenix_pubsub, "~> 1.1"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
       {:phoenix_ecto, "~> 4.4"},
       {:poller_dal, [path: "../poller_dal"]}
     ]
