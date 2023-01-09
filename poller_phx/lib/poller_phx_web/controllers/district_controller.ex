@@ -2,6 +2,7 @@ defmodule PollerPhxWeb.DistrictController do
   use PollerPhxWeb, :controller
   
   alias PollerDal.Districts
+  alias PollerDal.Districts.District
 
   def index(conn, _params) do
     districts = Districts.list_districts()
@@ -9,6 +10,38 @@ defmodule PollerPhxWeb.DistrictController do
   end
   
   def new(conn, _params) do
-    render(conn, "new.html")
+    changeset = Districts.change_district(%District{})
+    render(conn, "new.html", changeset: changeset)
   end
+  
+  def create(conn, %{"district" => district_params}) do
+    case Districts.create_district(district_params) do
+      {:ok, _district} -> 
+        conn
+        |> put_flash(:info, "District created")
+        |> redirect(to: Routes.district_path(conn, :index))
+        
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "new.html", changeset: changeset)
+    end
+  end
+  
+  def update(conn, %{"id" => id, "district" => district_params}) do
+    district = Districts.get_district!(id)
+    
+    case Districts.update_district(district, district_params) do
+      {:ok, _district} ->
+        conn
+        |> put_flash(:info, "District updated successful")
+        |> redirect(to: Routes.district_path(conn, :index))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "edit.html", district: district, changeset: changeset)
+    end
+  end
+  
+  def edit(conn, %{"id" => id}) do
+    district = Districts.get_district!(id)
+    changeset = Districts.change_district(district)
+    render(conn, "edit.html", district: district, changeset: changeset)
 end
